@@ -1,0 +1,26 @@
+name: safeinspect_mobile
+description: Aplicación móvil para el registro y seguimiento de inspecciones de seguridad industrial.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  firebase_core: ^3.15.2
+  firebase_auth: ^5.6.2
+  cloud_firestore: ^5.6.12
+  firebase_storage: ^12.4.10
+  image_picker: ^1.1.2
+  shared_preferences: ^2.5.3
+
+ dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
