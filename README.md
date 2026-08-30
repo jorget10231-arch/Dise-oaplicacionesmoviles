@@ -1,139 +1,107 @@
 # 📱 SafeInspect Mobile
 
-Aplicación móvil desarrollada con **Flutter** y **Firebase** para optimizar el registro y seguimiento de inspecciones de seguridad industrial mediante una plataforma segura, intuitiva y conectada a la nube.
+Aplicación móvil multiplataforma desarrollada con **Flutter** y preparada para integrarse con **Firebase** para optimizar el registro y seguimiento de inspecciones de seguridad industrial.
 
----
+## 🎯 Situación problema
 
-# Descripción del Proyecto
+En empresas del sector industrial, las inspecciones de seguridad pueden realizarse mediante formatos físicos, hojas de cálculo o aplicaciones de mensajería para compartir evidencias. Esto puede generar pérdida de información, duplicidad de registros, retrasos en reportes y dificultades para hacer seguimiento a los hallazgos. El problema se incrementa en zonas con baja o nula conectividad.
 
-Actualmente, muchas empresas realizan las inspecciones de seguridad utilizando formatos físicos, hojas de cálculo o aplicaciones de mensajería para compartir evidencias. Este proceso ocasiona pérdida de información, duplicidad de registros y retrasos en la generación de reportes.
+SafeInspect Mobile propone registrar inspecciones desde dispositivos móviles, conservar la información durante la operación en campo y sincronizarla de forma segura con servicios en la nube cuando exista conexión.
 
-SafeInspect Mobile propone una solución tecnológica que permite registrar inspecciones desde dispositivos móviles, almacenar evidencias fotográficas y sincronizar la información con la nube de forma segura.
+## ❓ Pregunta problema
 
----
+**¿De qué manera la implementación de una aplicación móvil desarrollada con Flutter e integrada con Firebase permite mejorar el registro, almacenamiento y seguimiento de inspecciones de seguridad industrial en escenarios con baja o nula conectividad?**
 
-# Objetivo General
+## 🎯 Objetivo general
 
-Desarrollar una aplicación móvil para Android utilizando Flutter e integrada con Firebase que permita registrar y gestionar inspecciones de seguridad industrial, reduciendo el tiempo de registro de información y mejorando la trazabilidad de los hallazgos.
+Desarrollar una aplicación móvil para Android utilizando Flutter e integrada con Firebase que permita registrar y gestionar inspecciones de seguridad industrial, reduciendo el tiempo de registro de información en campo y mejorando la trazabilidad de los hallazgos.
 
----
+## 🧩 Metodología
 
-# Tecnologías Utilizadas
+**Mobile Agile / Scrum**, con sprints semanales, prototipado UX/UI y validación progresiva en dispositivos reales.
 
-- Flutter
+## 🛠️ Tecnologías
+
+- Flutter / Dart
 - Firebase Authentication
 - Cloud Firestore
 - Firebase Storage
-- Git
-- GitHub
+- Git / GitHub
 - Figma
 
----
-
-# Arquitectura
+## 📁 Estructura actual
 
 ```text
-                 Usuario
-
-                    │
-
-          Aplicación Flutter
-
-                    │
-
-                 HTTPS
-
-                    │
-
-      Firebase Authentication
-
-                    │
-
-            Cloud Firestore
-
-                    │
-
-          Firebase Storage
-
-                    │
-
-          Evidencias Fotográficas
-```
-
----
-
-# Funcionalidades
-
-- Inicio de sesión seguro.
-- Registro de inspecciones.
-- Captura de fotografías.
-- Consulta del historial.
-- Sincronización con Firebase.
-- Gestión de hallazgos.
-- Almacenamiento seguro.
-
----
-
-# Estructura del Proyecto
-
-```
-SafeInspect-Mobile/
-
-│
-
+Dise-oaplicacionesmoviles/
 ├── app/
-
-│
-
+│   ├── lib/
+│   │   ├── main.dart
+│   │   ├── models/
+│   │   │   └── inspection.dart
+│   │   ├── screens/
+│   │   │   └── inspection_form_page.dart
+│   │   └── services/
+│   │       └── firebase_service.dart
+│   ├── test/
+│   │   └── widget_test.dart
+│   ├── pubspec.yaml
+│   └── analysis_options.yaml
 ├── docs/
-
-│   ├── arquitectura/
-
-│   ├── evidencias/
-
-│   ├── presentacion/
-
-│
-
-├── README.md
-
-├── LICENSE
-
-└── .gitignore
+├── presentation/
+└── README.md
 ```
 
----
+## 📱 Estado de la aplicación
 
-# Seguridad
+**Entrega 1 — estructura inicial en desarrollo.**
 
-La aplicación implementa las siguientes medidas de seguridad:
+La aplicación ya cuenta con una pantalla inicial y un flujo básico para iniciar una nueva inspección. El formulario permite registrar nombre, ubicación y hallazgo, además de dejar preparado el punto de integración para evidencias fotográficas.
 
-- Autenticación mediante Firebase Authentication.
-- Comunicación segura mediante HTTPS.
-- Tokens JWT para autenticación.
-- Almacenamiento seguro de información sensible.
-- Reglas de acceso en Firestore y Firebase Storage.
+La capa de servicios incluye el punto de integración para **Firebase Authentication, Cloud Firestore y Firebase Storage**. La estrategia Offline-First y la sincronización serán implementadas progresivamente en las siguientes iteraciones.
 
----
+## ☁️ Arquitectura prevista
 
-# Estado del Proyecto
+```text
+Usuario
+   │
+   ▼
+Aplicación Flutter
+   │
+   ├── UI / Screens
+   ├── Models
+   ├── Services
+   └── Persistencia local / Offline-First
+             │
+             ▼
+          Firebase
+       ├── Authentication
+       ├── Firestore
+       └── Storage
+```
 
-🚧 En desarrollo
+## 🔐 Seguridad
 
----
+La arquitectura contempla autenticación mediante Firebase Authentication, comunicación HTTPS/TLS, control de acceso mediante reglas de seguridad de Firestore y Storage y almacenamiento seguro de información sensible en el dispositivo.
 
-# Autor
+## ▶️ Ejecución
 
-**Jorge Ignacio Torres Parra**
+Desde la carpeta `app/`, con Flutter instalado:
 
-Ingeniería Informática
+```bash
+flutter pub get
+flutter analyze
+flutter test
+flutter run
+```
 
-Fundación Universitaria Católica del Norte
+> La configuración real de Firebase se completará mediante FlutterFire. No se deben publicar claves privadas, credenciales ni archivos sensibles en el repositorio.
 
+## 👤 Autor
+
+**Jorge Ignacio Torres Parra**  
+Ingeniería Informática — Fundación Universitaria Católica del Norte  
 2026
 
----
+## 📄 Propósito
 
-# Licencia
-
-Proyecto desarrollado con fines académicos.
+Proyecto desarrollado con fines académicos para el Taller ABP — Diseño de Aplicaciones Móviles.
