@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../services/auth_service.dart';
 import '../inspections/inspection_form_page.dart';
+import '../inspections/inspection_history_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key, this.authService});
@@ -51,15 +52,17 @@ class HomePage extends StatelessWidget {
               title: const Text('Historial'),
               subtitle: const Text('Consultar inspecciones registradas.'),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () {},
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const InspectionHistoryPage()),
+              ),
             ),
           ),
-          Card(
+          const Card(
             child: ListTile(
-              leading: const Icon(Icons.sync),
-              title: const Text('Sincronización'),
-              subtitle: const Text('Pendientes de sincronización: 0'),
-              trailing: const Icon(Icons.cloud_done),
+              leading: Icon(Icons.sync),
+              title: Text('Sincronización'),
+              subtitle: Text('Pendientes de sincronización: 0'),
+              trailing: Icon(Icons.cloud_done),
             ),
           ),
         ],
