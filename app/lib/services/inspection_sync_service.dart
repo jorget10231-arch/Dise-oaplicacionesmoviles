@@ -8,13 +8,14 @@ class InspectionSyncService {
     FirebaseFirestore? firestore,
     LocalInspectionRepository? localRepository,
   })  : _firestore = firestore ?? FirebaseFirestore.instance,
-        _localRepository = localRepository ?? LocalInspectionRepository();
+        _localRepository =
+            localRepository ?? SharedPreferencesInspectionRepository();
 
   final FirebaseFirestore _firestore;
   final LocalInspectionRepository _localRepository;
 
   Future<int> syncPending() async {
-    final pending = await _localRepository.pendingInspections();
+    final pending = await _localRepository.getPending();
     var synced = 0;
 
     for (final inspection in pending) {
@@ -26,8 +27,7 @@ class InspectionSyncService {
         await _localRepository.markAsSynced(inspection.id);
         synced++;
       } catch (_) {
-        // Mantener el registro pendiente permite reintentar en la siguiente
-        // oportunidad de conectividad.
+        // El registro permanece pendiente para permitir un nuevo intento.
       }
     }
 
