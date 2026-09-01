@@ -6,20 +6,24 @@ class InspectionSyncService {
   InspectionSyncService({
     FirebaseFirestore? firestore,
     LocalInspectionRepository? localRepository,
-  })  : _firestore = firestore ?? FirebaseFirestore.instance,
+  })  : _firestore = firestore,
         _localRepository =
             localRepository ?? SharedPreferencesInspectionRepository();
 
-  final FirebaseFirestore _firestore;
+  final FirebaseFirestore? _firestore;
   final LocalInspectionRepository _localRepository;
 
   Future<int> syncPending() async {
     final pending = await _localRepository.getPending();
-    var synced = 0;
+    if (pending.isEmpty) return 0;
 
+    final firestore = _firestore;
+    if (firestore == null) return 0;
+
+    var synced = 0;
     for (final inspection in pending) {
       try {
-        await _firestore
+        await firestore
             .collection('inspections')
             .doc(inspection.id)
             .set(inspection.toMap(), SetOptions(merge: true));
