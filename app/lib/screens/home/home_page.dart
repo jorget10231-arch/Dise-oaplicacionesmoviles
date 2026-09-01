@@ -1,17 +1,79 @@
 import 'package:flutter/material.dart';
 
+import '../../repositories/local_inspection_repository.dart';
 import '../../services/auth_service.dart';
+import '../../services/inspection_sync_service.dart';
 import '../inspections/inspection_form_page.dart';
 import '../inspections/inspection_history_page.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key, this.authService});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key, this.authService, this.repository, this.syncService});
 
   final AuthService? authService;
+  final LocalInspectionRepository? repository;
+  final InspectionSyncService? syncService;
 
-  Future<void> _logout(BuildContext context) async {
-    await (authService ?? AuthService()).signOut();
-    if (!context.mounted) return;
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late final LocalInspectionRepository _repository;
+  late final InspectionSyncService _syncService;
+  int _pending = 0;
+  bool _syncing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _repository = widget.repository ?? SharedPreferencesInspectionRepository();
+    _syncService = widget.syncService ?? InspectionSyncService(localRepository: _repository);
+    _loadPending();
+  }
+
+  Future<void> _loadPending() async {
+    final pending = await _repository.getPending();
+    if (!mounted) return;
+    setState(() => _pending = pending.length);
+  }
+
+  Future<void> _sync() async {
+    if (_syncing) return;
+    setState(() => _syncing = true);
+    try {
+      final synced = await _syncService.syncPending();
+      await _loadPending();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(synced > 0 ? '$synced inspección(es) sincronizada(s).' : 'No se sincronizaron inspecciones.')),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No fue posible sincronizar. Verifique la conexión.')),
+      );
+    } finally {
+      if (mounted) setState(() => _syncing = false);
+    }
+  }
+
+  Future<void> _openForm() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => InspectionFormPage(repository: _repository)),
+    );
+    await _loadPending();
+  }
+
+  Future<void> _openHistory() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => InspectionHistoryPage(repository: _repository)),
+    );
+    await _loadPending();
+  }
+
+  Future<void> _logout() async {
+    await (widget.authService ?? AuthService()).signOut();
+    if (!mounted) return;
     Navigator.of(context).pushReplacementNamed('/login');
   }
 
@@ -23,7 +85,7 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             tooltip: 'Cerrar sesión',
-            onPressed: () => _logout(context),
+            onPressed: _logout,
             icon: const Icon(Icons.logout),
           ),
         ],
@@ -41,9 +103,7 @@ class HomePage extends StatelessWidget {
               title: const Text('Nueva inspección'),
               subtitle: const Text('Registrar una nueva inspección de seguridad.'),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const InspectionFormPage()),
-              ),
+              onTap: _openForm,
             ),
           ),
           Card(
@@ -52,17 +112,21 @@ class HomePage extends StatelessWidget {
               title: const Text('Historial'),
               subtitle: const Text('Consultar inspecciones registradas.'),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const InspectionHistoryPage()),
-              ),
+              onTap: _openHistory,
             ),
           ),
-          const Card(
+          Card(
             child: ListTile(
-              leading: Icon(Icons.sync),
-              title: Text('Sincronización'),
-              subtitle: Text('Pendientes de sincronización: 0'),
-              trailing: Icon(Icons.cloud_done),
+              leading: _syncing
+                  ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2))
+                  : const Icon(Icons.sync),
+              title: const Text('Sincronización'),
+              subtitle: Text('Pendientes de sincronización: $_pending'),
+              trailing: IconButton(
+                tooltip: 'Sincronizar ahora',
+                onPressed: _syncing ? null : _sync,
+                icon: const Icon(Icons.cloud_upload),
+              ),
             ),
           ),
         ],
