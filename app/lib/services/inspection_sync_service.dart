@@ -6,9 +6,16 @@ class InspectionSyncService {
   InspectionSyncService({
     FirebaseFirestore? firestore,
     LocalInspectionRepository? localRepository,
-  })  : _firestore = firestore,
+  })  : _firestore = firestore ?? FirebaseFirestore.instance,
         _localRepository =
             localRepository ?? SharedPreferencesInspectionRepository();
+
+  /// Constructor sin Firebase para pruebas de interfaz.
+  InspectionSyncService.disabled({
+    LocalInspectionRepository? localRepository,
+  })  : _firestore = null,
+        _localRepository =
+            localRepository ?? InMemoryInspectionRepository();
 
   final FirebaseFirestore? _firestore;
   final LocalInspectionRepository _localRepository;
