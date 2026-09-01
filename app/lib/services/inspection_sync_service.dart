@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/inspection.dart';
 import '../repositories/local_inspection_repository.dart';
 
 class InspectionSyncService {
