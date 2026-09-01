@@ -10,10 +10,12 @@ Este documento relaciona la estructura y el estado de SafeInspect Mobile con los
 
 - Situación problema y pregunta problema en el README principal.
 - Objetivo general.
-- Justificación de Flutter, Firebase y Offline-First.
+- Justificación de Flutter, Firebase y enfoque Offline-First.
 - Requisitos funcionales y no funcionales en `docs/requisitos/`.
 
-**Argumento:** la solución parte de una necesidad de registro y trazabilidad de inspecciones en campo y considera explícitamente escenarios de conectividad limitada.
+**Estado:** Alto.
+
+La solución parte de una necesidad concreta de registro y trazabilidad de inspecciones en campo y considera explícitamente escenarios de conectividad limitada.
 
 ## 2. Arquitectura de la solución y buenas prácticas — 25%
 
@@ -21,28 +23,38 @@ Este documento relaciona la estructura y el estado de SafeInspect Mobile con los
 
 - Separación entre `screens`, `services`, `repositories` y `models`.
 - Documentación de arquitectura en `docs/arquitectura/`.
-- Servicios diferenciados para autenticación, Firestore, Storage y sincronización.
-- Estrategia Offline-First documentada.
+- Servicio de autenticación.
+- Servicios de Firestore y sincronización.
+- Estrategia de persistencia local.
+- Pruebas automatizadas y análisis estático.
 
-**Argumento:** la separación por responsabilidades permite evolucionar la aplicación sin concentrar la lógica de negocio en las pantallas.
+**Estado:** Alto.
+
+La separación por responsabilidades permite mantener la lógica de acceso a datos y servicios fuera de las pantallas y facilita la evolución de la aplicación.
 
 ## 3. Calidad y estructura del repositorio GitHub — 20%
 
 **Evidencias:**
 
 - Repositorio público.
-- README principal.
+- README principal organizado.
 - Código fuente en `app/`.
-- Documentación en `docs/`.
-- Presentación en `presentation/`.
+- Documentación técnica en `docs/`.
 - Historial de commits asociado a las fases de construcción.
+- Configuración Android y Firebase integrada en el proyecto.
+
+**Estado:** Alto.
+
+El repositorio mantiene el código fuente y la documentación como fuente de trazabilidad del proyecto.
 
 ## 4. Material de soporte — 15%
 
-**Evidencia:**
+**Evidencias:**
 
-- `presentation/Presentacion_SafeInspect_Mobile.pdf`.
+- Material de presentación en `presentation/`.
 - Documentación técnica de arquitectura, requisitos, seguridad y pruebas.
+
+**Estado:** Alto, sujeto a la organización final de la presentación antes de la entrega.
 
 ## 5. Rigor técnico y potencial de investigación — 20%
 
@@ -50,14 +62,24 @@ Este documento relaciona la estructura y el estado de SafeInspect Mobile con los
 
 - Arquitectura modular.
 - Enfoque Offline-First.
+- Persistencia local.
 - Sincronización local/cloud.
 - Firebase Authentication.
-- Firestore y Storage.
-- Gestión de hallazgos y evidencias.
-- Matriz de pruebas.
+- Cloud Firestore.
+- Gestión de inspecciones e historial.
+- Pruebas automatizadas.
+- Matriz de pruebas y documentación técnica.
 
-**Potencial:** la estrategia Offline-First y la trazabilidad de inspecciones constituyen una base para futuras iteraciones de sincronización, análisis de datos y ampliación de capacidades de inspección.
+**Estado:** Alto.
 
-## Estado
+**Potencial:** la estrategia Offline-First y la trazabilidad de inspecciones constituyen una base para futuras iteraciones relacionadas con sincronización avanzada, manejo de conflictos, análisis de datos, evidencias multimedia y ampliación de capacidades de inspección.
 
-La documentación y estructura del repositorio están preparadas para la Entrega 1. Las funcionalidades que requieren prueba de extremo a extremo con Firestore, Storage y sincronización permanecen marcadas como pendientes hasta completar su validación.
+## Estado general de la Entrega 1
+
+El núcleo funcional de la aplicación fue implementado y validado: autenticación, registro de inspecciones, persistencia local, historial, gestión de pendientes y sincronización con Cloud Firestore.
+
+La sincronización con Firestore fue comprobada utilizando el proyecto Firebase `safeinspect-c2e17`, después de crear la base de datos predeterminada requerida para la operación del servicio.
+
+Permanecen como evolución o validación pendiente la implementación integral de evidencia fotográfica con Firebase Storage, la revisión final de reglas de seguridad y una prueba formal documentada del flujo Offline → Online.
+
+La documentación distingue explícitamente entre funcionalidades implementadas y funcionalidades validadas, evitando presentar como terminados componentes que todavía no han sido comprobados de extremo a extremo.
