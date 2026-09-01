@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1096234816997",
+    "project_id": "safeinspect-c2e17",
+    "storage_bucket": "safeinspect-c2e17.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096234816997:android:b112794a00a9d141834b0c",
+        "android_client_info": {
+          "package_name": "com.example.safeinspect_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1096234816997-46k1g9q2klsqv5ktbp5qru9m5e4joib5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDd8Nc6uiTuOwzx5QSc0zQzMt6rDtoE_rI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1096234816997-46k1g9q2klsqv5ktbp5qru9m5e4joib5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
