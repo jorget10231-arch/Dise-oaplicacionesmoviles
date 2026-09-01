@@ -17,7 +17,9 @@ void main() {
 
   testWidgets('muestra el panel principal de inspecciones', (tester) async {
     final repository = InMemoryInspectionRepository();
-    final syncService = InspectionSyncService(localRepository: repository);
+    final syncService = InspectionSyncService.disabled(
+      localRepository: repository,
+    );
 
     await tester.pumpWidget(
       MaterialApp(
